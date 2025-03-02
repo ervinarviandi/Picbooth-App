@@ -1,21 +1,12 @@
 "use client"
 import Link from "next/link";
 import { IoCameraOutline } from "react-icons/io5";
-import {Overpass} from "next/font/google";
 import { Comfortaa } from "next/font/google";
 import  ModeToggle  from "@/components/atoms/ModeToggle";
 import { SparklesText } from "@/components/magicui/sparkles-text";
 import Header from "@/components/commons/Header";
 import React from 'react'
 
-
-
-
-const overpass = Overpass({
-  subsets: ["latin"],
-  variable: "--font-overpass",
-  display: "swap",
-})
 
 const comfortaa = Comfortaa({
   subsets: ["latin"],

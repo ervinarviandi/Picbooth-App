@@ -5,29 +5,13 @@ import Link from "next/link"
 import * as htmlToImage from 'html-to-image';
 import {Camera, CircleX, PanelLeftClose, ArrowDownToLine} from "lucide-react"
 import { Overpass } from 'next/font/google';
-
-interface Props {
-  children?: React.ReactNode;
-  className?: string;
-  imageData: string;
-  imageSrc: (imageData: string) => void;
-  
-}
+import Image from 'next/image';
 
 const overpass = Overpass({
   subsets: ["latin"],
   variable: "--font-overpass",
   display: "swap",
 })
-
-
-const grayscaleFilter = () => {
-  const image = document.getElementById('webcam') as HTMLImageElement;
-  if (image) {
-    image.style.filter = 'grayscale(100%)';
-  }["picboots"]
-}
-
 
 const videoConstraints = {
   width: 1280,
@@ -37,30 +21,11 @@ const videoConstraints = {
 
 const Photobooth: React.FC = () => {
 
-
   const webcamRef = useRef<Webcam>(null);
   const [isCameraStarted, setIsCameraStarted] = useState<boolean>(false);
   const [capturedPhotos, setCapturedPhotos] = useState<string[]>([]); 
-  const [bgColor, setbgColor] = useState<string>('#000000');
   const [text, setText] = useState<string>('picbooth');
   const [backgroundColor, setbackgroundColor] = useState<string>('#ffffff');
-
-
-
-
-  const changeBackground = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    setbgColor(e.target.value);
-  },[setbgColor])
-
-
-
-
-
-//   const changeBackground = useCallback(
-//     (e: React.ChangeEvent<HTMLSelectElement>) => {
-//     setbgColor(e.target.value);
-//   },
-// );   
   
   const startCamera = () => {
     setIsCameraStarted(true);
@@ -87,21 +52,14 @@ const Photobooth: React.FC = () => {
 const downloadPhoto = () => {
     htmlToImage.toJpeg 
     (document.getElementById('picbooth')?? document.body, { quality: 1.0 })
-  .then(function (dataUrl) {
-    var link = document.createElement('a');
+  .then((dataUrl) => {
+    const link = document.createElement('a');
     link.download = 'picbooth.jpeg';
     link.href = dataUrl;
     link.click();
   });
 }
 
-
-const grayscaleFilter = () => {
-    const image = document.getElementById('picboots') as HTMLImageElement;
-    if (image) {
-      image.style.filter = 'grayscale(100%)';
-    }
-}
 
 
 const handlechangeColor = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -136,14 +94,12 @@ const handlechangeColor = useCallback((e: React.ChangeEvent<HTMLInputElement>) =
         <div className='w-full lg:max-w-5xl mx-auto px-5'>
             <div className='grid md:grid-cols-2 gap-5'>
                 <div className='flex flex-col mx-auto'>
-                  
           <div>
             <div className=' mt-10'>
               <Webcam
                 id='webcam'
                 audio={false}
                 ref={webcamRef}
-                onChange={grayscaleFilter}
                 screenshotQuality={1}
                 screenshotFormat="image/jpeg"
                 videoConstraints={videoConstraints}
@@ -173,10 +129,9 @@ const handlechangeColor = useCallback((e: React.ChangeEvent<HTMLInputElement>) =
               <div className='w-full '>
                 {capturedPhotos.map((photo, index) => (
                   <div className='p-3 rounded-lg ' key={index} >
-                    <img src={photo}  alt={`Captured ${index + 1}`}  />
+                    <Image src={photo}  alt={`Captured ${index + 1}`}  />
                     {/* <p>Photo {index + 1}</p> */}
                   </div>
-                  
                 ))}
                 <span className='text-black' onChange={changeText}>{text}</span>
               </div>
@@ -195,7 +150,7 @@ const handlechangeColor = useCallback((e: React.ChangeEvent<HTMLInputElement>) =
                   <div className='flex justify-start'>
                     <input type="color"  value={backgroundColor} onChange={handlechangeColor} className='border-none h-9 w-9 outline-none' id='picbooth' />
                   </div>
-          </div>
+                </div>
               <button className=' z-50 py-3 px-6 rounded-full dark:bg-[#ffffff] dark:hover:bg-[#f9f3e9] dark:text-black text-[#ffffff] bg-black hover:bg-[#232323] flex justify-center text-center items-center
                gap-x-2 mt-5' onClick={downloadPhoto}>Download Photos <ArrowDownToLine size={20}/></button>
             </div>
@@ -206,9 +161,4 @@ const handlechangeColor = useCallback((e: React.ChangeEvent<HTMLInputElement>) =
     </div>
   );
 };
-
 export default Photobooth;
-
-function changeGrayscale(arg0: React.ChangeEvent<HTMLInputElement>) {
-  throw new Error('Function not implemented.');
-}
