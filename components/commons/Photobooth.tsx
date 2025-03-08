@@ -104,7 +104,7 @@ const handlechangeColor = useCallback((e: React.ChangeEvent<HTMLInputElement>) =
                 screenshotFormat="image/jpeg"
                 videoConstraints={videoConstraints}
                 width={640}
-                height={480}
+                height={280}
                 style={{ maxWidth: '100%', height: 'auto', borderRadius: '10px' 
                 }}
               />
@@ -129,7 +129,7 @@ const handlechangeColor = useCallback((e: React.ChangeEvent<HTMLInputElement>) =
               <div className='w-full '>
                 {capturedPhotos.map((photo, index) => (
                   <div className='p-3 rounded-lg ' key={index} >
-                    <Image src={photo} width={640} height={480}  alt={`Captured ${index + 1}`}  />
+                    <Image src={photo} width={640} height={280}  alt={`Captured ${index + 1}`}  />
                     {/* <p>Photo {index + 1}</p> */}
                   </div>
                 ))}
